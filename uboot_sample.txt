@@ -1,0 +1,148 @@
+
+         __  __                      _ _
+        |  \/  | __ _ _ ____   _____| | |
+        | |\/| |/ _` | '__\ \ / / _ \ | |
+        | |  | | (_| | |   \ V /  __/ | |
+        |_|  |_|\__,_|_|    \_/ \___|_|_|
+ _   _     ____              _
+| | | |   | __ )  ___   ___ | |_ 
+| | | |___|  _ \ / _ \ / _ \| __| 
+| |_| |___| |_) | (_) | (_) | |_ 
+ \___/    |____/ \___/ \___/ \__| 
+ ** MARVELL BOARD: RD-88F6281A LE 
+
+U-Boot 1.1.4 (Sep  3 2009 - 10:47:42) Marvell version: 3.4.14
+
+Mapower version: 1.0 (128MB) (2009/09/03)
+
+U-Boot code: 00600000 -> 0067FFF0  BSS: -> 006CEE60
+
+Soc: 88F6281 A0 (DDR2)
+CPU running @ 1000Mhz L2 running @ 333Mhz
+SysClock = 333Mhz , TClock = 200Mhz 
+
+DRAM CAS Latency = 5 tRP = 5 tRAS = 18 tRCD=6
+DRAM CS[0] base 0x00000000   size 256MB 
+DRAM Total size 256MB  16bit width
+Flash:  0 kB
+Addresses 8M - 0M are saved for the U-Boot usage.
+Mem malloc Initialization (8M - 7M): Done
+NAND:128 MB
+
+CPU : Marvell Feroceon (Rev 1)
+
+Streaming disabled 
+Write allocate disabled
+
+Module 0 is RGMII
+Module 1 is TDM
+
+USB 0: host mode
+PEX 0: interface detected no Link.
+Net:   egiga0, egiga1 [PRIME]
+Fan lookup table initialized.
+
+Current remote temperature: 30
+Current fan speed: 0
+
+Hit any key to stop autoboot:  3  2  1  0 
+(Re)start USB...
+USB:   scanning bus for devices... 2 USB Device(s) found
+       scanning bus for storage devices... 0 Storage Device(s) found
+** Bad partition 1 **
+** Bad partition 1 **
+## Booting image at 00008000 ...
+Bad Magic Number
+
+Reset IDE: 
+Marvell Serial ATA Adapter
+Integrated Sata device found
+
+** Bad partition 1 **
+** Bad partition 1 **
+** Bad partition 1 **
+** Bad partition 1 **
+## Booting image at 00008000 ...
+Bad Magic Number
+Marvell>> printenv
+baudrate=115200
+loads_echo=0
+ipaddr=10.4.50.165
+serverip=10.4.50.5
+rootpath=/mnt/ARM_FS/
+netmask=255.255.255.0
+console=console=ttyS0,115200 mtdparts=nand_mtd:0xc0000@0(uboot)ro,0x7f00000@0x100000(root)
+CASset=min
+MALLOC_len=1
+ethprime=egiga1
+bootargs_end=:::DB88FXX81:eth0:none
+image_name=uImage
+standalone=fsload 0x2000000 $(image_name);setenv bootargs $(console) root=/dev/mtdblock0 rw ip=$(ipaddr):$(serverip)$(bootargs_end) $(mvPhoneConfig); bootm 0x2000000;
+ethmtu=1500
+eth1addr=00:50:43:6a:12:25
+eth1mtu=1500
+mvPhoneConfig=mv_phone_config=dev0:fxs,dev1:fxs
+mvNetConfig=mv_net_config=(00:11:88:0f:62:81,0:1:2:3),mtu=1500
+usb0Mode=host
+yuk_ethaddr=00:00:00:EE:51:81
+nandEcc=1bit
+netretry=no
+rcvrip=169.254.100.100
+loadaddr=0x02000000
+autoload=no
+FanHysteresis=2
+FanTempStart=58
+uboot_start=0x0
+uboot_size=0xc0000
+env_start=0xa0000
+env_size=0x20000
+kernel_start=0x100000
+kernel_size=0x300000
+initrd_start=0x540000
+initrd_size=0x300000
+flash_load=run make_boot_args load1 load2 boot
+load1=nand read.e 0x2000000 $(kernel_start) $(kernel_size)
+load2=nand read.e 0x4500000 $(initrd_start) $(initrd_size)
+boot=bootm 0x2000000 0x4500000
+make_boot_args=setenv bootargs console=ttyS0,115200 mtdparts=nand_mtd:;setenv bootargs $(bootargs)$(uboot_size)@$(uboot_start)(uboot),;setenv bootargs $(bootargs)$(env_size)@$(env_start)(env),;setenv bootargs $(bootargs)$(kernel_size)@$(kernel_start)(zImage),;setenv bootargs $(bootargs)$(initrd_size)@$(initrd_start)(initrd),;setenv bootargs $(bootargs)128m@0x0(flash);
+iomega=123
+ethaddr=AA:00:00:00:00:01
+arcNumber=1682
+bootargs_console=console=ttyS0,115200
+bootargs_mtdparts=mtdparts=orion_nand:640k(u-boot)ro,16k(u-boot-env),-(iomega-firmware)ro
+bootargs_root=root=LABEL=ROOT rw
+bootargs_combine=setenv bootargs ${bootargs_console} ${bootargs_mtdparts} ${bootargs_root}
+bootlinux=bootm ${memoffset_kernel} ${memoffset_initrd}
+usb_load_firstdevice=ext2load usb 0:1 ${memoffset_kernel} /uImage; ext2load usb 0:1 ${memoffset_initrd} /uInitrd
+usb_load=run bootargs_combine; usb reset; run usb_load_firstdevice; run bootlinux
+sata_load_disk1=ext2load ide 0:1 ${memoffset_kernel} /uImage; ext2load ide 0:1 ${memoffset_initrd} /uInitrd
+sata_load_disk2=ext2load ide 1:1 ${memoffset_kernel} /uImage; ext2load ide 1:1 ${memoffset_initrd} /uInitrd
+sata_load=run bootargs_combine; ide reset; run sata_load_disk1; run sata_load_disk2; run bootlinux
+bootcmd=run usb_load; run sata_load
+memoffset_kernel=0x00008000
+memoffset_initrd=0x01000000
+stdin=serial
+stdout=serial
+stderr=serial
+mainlineLinux=yes
+enaMonExt=no
+enaCpuStream=no
+enaWrAllo=no
+pexMode=RC
+disL2Cache=no
+setL2CacheWT=yes
+disL2Prefetch=yes
+enaICPref=yes
+enaDCPref=yes
+sata_dma_mode=yes
+netbsd_en=no
+vxworks_en=no
+bootdelay=3
+disaMvPnp=no
+hddPowerCtrl=no
+enaAutoRecovery=yes
+ethact=egiga1
+bootargs=console=ttyS0,115200 mtdparts=orion_nand:640k(u-boot)ro,16k(u-boot-env),-(iomega-firmware)ro root=LABEL=ROOT rw
+
+Environment size: 2897/131068 bytes
+Marvell>> 
